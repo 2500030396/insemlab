@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Dashboard</title>
+    <style>
+        body {
+            font-family: Arial;
+            text-align: center;
+            background: #eef2f7;
+            padding: 40px;
+        }
+        .box {
+            background: white;
+            padding: 25px;
+            margin: auto;
+            max-width: 350px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #aaa;
+        }
+        input, button {
+            padding: 10px;
+            margin: 8px;
+            width: 85%;
+        }
+        button {
+            background: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #dashboard {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box" id="login">
+    <h2>User Login</h2>
+    <input type="text" id="username"
+           placeholder="Enter Username">
+    <input type="password" id="password"
+           placeholder="Enter Password">
+    <button onclick="loginUser()">Login</button>
+    <p id="message"></p>
+</div>
+
+<div class="box" id="dashboard">
+    <h2>Welcome to Dashboard</h2>
+    <p>Username: <span id="user"></span></p>
+    <p>Login Status: Successful</p>
+    <button onclick="logoutUser()">Logout</button>
+</div>
+
+<script>
+function loginUser() {
+    let username =
+        document.getElementById("username").value;
+    let password =
+        document.getElementById("password").value;
+
+    if (username === "student" &&
+        password === "1234") {
+
+        localStorage.setItem("username", username);
+        sessionStorage.setItem("loggedIn", "true");
+
+        showDashboard();
+    } else {
+        document.getElementById("message").innerHTML =
+            "Invalid Username or Password!";
+    }
+}
+
+function showDashboard() {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
+
+    document.getElementById("user").innerHTML =
+        localStorage.getItem("username");
+}
+
+function logoutUser() {
+    localStorage.removeItem("username");
+    sessionStorage.removeItem("loggedIn");
+
+    document.getElementById("dashboard").style.display = "none";
+    document.getElementById("login").style.display = "block";
+    document.getElementById("password").value = "";
+}
+
+// Check login session
+if (sessionStorage.getItem("loggedIn") === "true") {
+    showDashboard();
+}
+</script>
+
+</body>
+</html>
